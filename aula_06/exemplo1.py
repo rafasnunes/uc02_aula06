@@ -80,17 +80,17 @@ try:
     print(f'Limite superior: {limite_superior}')
 
     df_roubo_veiculo_outliermaior = df_roubo_veiculo[df_roubo_veiculo['roubo_veiculo'] > limite_superior]
-    df_roubo_veiculo_outliermaior = df_roubo_veiculo[df_roubo_veiculo['roubo_veiculo'] < limite_inferior]
+    df_roubo_veiculo_outliermenor = df_roubo_veiculo[df_roubo_veiculo['roubo_veiculo'] < limite_inferior]
 
-    if len(df_roubo_veiculo_menores) == 0:  # Trata o erro caso não haja outliers 
+    if len(df_roubo_veiculo_outliermenor) == 0:  # Trata o erro caso não haja outliers 
         print('Não foram encontrados outliers inferiores')
     else:
-        print(df_roubo_veiculo_menores.sort_values(by='roubo_veiculo', ascending=True))
+        print(df_roubo_veiculo_outliermenor.sort_values(by='roubo_veiculo', ascending=True))
 
-    if len(df_roubo_veiculo_maiores) == 0:
+    if len(df_roubo_veiculo_outliermaior) == 0:
         print('Não foram encontrados outliers superiores')
     else:
-        print(df_roubo_veiculo_maiores.sort_values(by='roubo_veiculo', ascending=False))
+        print(df_roubo_veiculo_outliermaior.sort_values(by='roubo_veiculo', ascending=False))
     
 
 except Exception as e:
