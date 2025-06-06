@@ -5,7 +5,7 @@ from utils import limpar_nome_municipio
 try:
     print('Obtendo dados...')
 
-    #latin1, utf-8
+    # latin1, utf-8
     ENDERECO_DADOS = "https://www.ispdados.rj.gov.br/Arquivos/BaseDPEvolucaoMensalCisp.csv"
     df_ocorrencia = pd.read_csv(ENDERECO_DADOS, sep=';', encoding='iso-8859-1')
     # print(df_ocorrencia.head()) - Utilizado para testar se o .CSV foi importado.
@@ -64,6 +64,33 @@ try:
     print("\nMunicípios com maiores índices de roubos")
     print(df_roubo_veiculo_maiores.sort_values(by='roubo_veiculo', ascending=False))
 
+    # IDENTIFICANDO OUTLIERS (Discrepantes)
+
+    # IQR
+
+    iqr = q3 - q1
+    print(iqr)
+
+    limite_superior = q3 + (1.5 * iqr)
+    limite_inferior = q1 - (1.5 * iqr)
+
+    print(("\nLimites - Medidas de Posição"))
+    print(30*"=")
+    print(f'Limite inferior: {limite_inferior}')
+    print(f'Limite superior: {limite_superior}')
+
+    df_roubo_veiculo_outliermaior = df_roubo_veiculo[df_roubo_veiculo['roubo_veiculo'] > limite_superior]
+    df_roubo_veiculo_outliermaior = df_roubo_veiculo[df_roubo_veiculo['roubo_veiculo'] < limite_inferior]
+
+    if len(df_roubo_veiculo_menores) == 0:  # Trata o erro caso não haja outliers 
+        print('Não foram encontrados outliers inferiores')
+    else:
+        print(df_roubo_veiculo_menores.sort_values(by='roubo_veiculo', ascending=True))
+
+    if len(df_roubo_veiculo_maiores) == 0:
+        print('Não foram encontrados outliers superiores')
+    else:
+        print(df_roubo_veiculo_maiores.sort_values(by='roubo_veiculo', ascending=False))
     
 
 except Exception as e:
